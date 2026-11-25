@@ -317,6 +317,20 @@ a.lnk:hover{filter:brightness(1.2)}
 .as-badge.warn{color:var(--warn);border-color:var(--warn)}
 .as-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;background:var(--warn-weak);color:var(--text);border:1px solid var(--warn);border-radius:10px;padding:10px 14px;margin:6px 0 4px;font-size:13px}
 .as-banner[hidden]{display:none}
+.menu-wrap{position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 6px);z-index:50;min-width:250px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.22);padding:6px;display:flex;flex-direction:column}
+.menu[hidden]{display:none}
+.menu button{border:0;background:none;text-align:left;padding:8px 10px;border-radius:6px;font-size:13px;display:flex;flex-direction:column;gap:1px}
+.menu button small{font-size:11px;color:var(--muted)}
+.menu button:hover:not(:disabled){background:var(--surface2)}
+.menu button:disabled{opacity:.4;cursor:not-allowed}
+.menu hr{border:0;border-top:1px solid var(--border);margin:4px 2px}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:10px;cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--accent)}
+.gh-help{margin-top:12px;font-size:12px;color:var(--muted)}
+.gh-help summary{cursor:pointer;color:var(--accent);font-weight:600}
+.gh-help ol{margin:8px 0 0;padding-left:20px;line-height:1.8}
+.gh-status{margin-top:14px;font-size:12px;padding:8px 10px;border-radius:8px;background:var(--surface2);color:var(--muted)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:99}
 .toast.show{opacity:1}
 @media (max-width:980px){.dash{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.bl{grid-template-columns:1fr}.epics{position:static}.det{grid-template-columns:1fr}}
@@ -338,8 +352,20 @@ a.lnk:hover{filter:brightness(1.2)}
     <input type="search" id="q" placeholder="이슈·프로젝트 검색  /" style="width:190px">
     <button class="btn primary" data-action="create" title="단축키 C">+ 만들기</button>
     <button class="btn as-badge" id="as-badge" data-action="autosave" hidden></button>
-    <button class="btn" data-action="export" title="JSON 백업 파일로 내보내기">내보내기</button>
-    <button class="btn" data-action="import" title="JSON 백업 파일 불러오기">가져오기</button>
+    <button class="btn as-badge" id="gh-badge" data-action="gh-settings" hidden></button>
+    <div class="menu-wrap">
+      <button class="btn" data-action="data-menu" aria-haspopup="true">💾 데이터 ▾</button>
+      <div class="menu" id="data-menu" hidden>
+        <button data-action="export">📤 PC로 내보내기 <small>JSON 파일로 저장</small></button>
+        <button data-action="import">📥 PC에서 불러오기 <small>내보낸 JSON 파일 열기</small></button>
+        <hr>
+        <button data-action="autosave">📁 작업 폴더 자동 저장 설정</button>
+        <hr>
+        <button data-action="gh-settings">🐙 GitHub 저장 설정</button>
+        <button data-action="gh-push" class="gh-only">⬆ GitHub에 지금 저장</button>
+        <button data-action="gh-pull" class="gh-only">⬇ GitHub에서 불러오기</button>
+      </div>
+    </div>
     <input type="file" id="file" accept="application/json,.json" class="hidden">
   </header>
   <div class="as-banner" id="as-banner" hidden>
@@ -557,6 +583,7 @@ function save(changed = true){
   if (changed) state.savedAt = Date.now();
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
   if (changed && typeof asSchedule === 'function') asSchedule();   // 작업 폴더 자동 저장
+  if (changed && typeof ghSchedule === 'function') ghSchedule();   // GitHub 자동 저장
 }
 
 let state = load();
@@ -1288,9 +1315,15 @@ document.addEventListener('click', e => {
         if (ui.epicF === i.id) ui.epicF = '';
         state.issues = state.issues.filter(x => x.id !== i.id); save(); dlg.close(); toast('삭제했습니다'); break; }
       case 'clear-f': ui.who = ''; ui.typeF = '전체'; ui.epicF = ''; saveUI(); render(); break;
-      case 'export': exportJSON(); break;
-      case 'autosave': asClick(); break;
-      case 'import': $('#file').click(); break;
+      case 'export': closeMenu(); exportJSON(); break;
+      case 'data-menu': { const m = $('#data-menu'); m.hidden = !m.hidden; m.querySelectorAll('.gh-only').forEach(b => b.disabled = !GH.cfg.repo || !GH.token); break; }
+      case 'gh-settings': closeMenu(); openGitHub(); break;
+      case 'gh-push': closeMenu(); ghPush(true); break;
+      case 'gh-pull': closeMenu(); ghPullManual(); break;
+      case 'gh-connect': ghConnectFromDialog(); break;
+      case 'gh-disconnect': ghDisconnect(); break;
+      case 'autosave': closeMenu(); asClick(); break;
+      case 'import': closeMenu(); $('#file').click(); break;
       case 'expand-all': state.projects.forEach(p => ui.open[p.id] = true); state.issues.forEach(i => { if (i.type === '에픽') ui.open[i.id] = true; }); saveUI(); render(); break;
       case 'collapse-all': state.projects.forEach(p => ui.open[p.id] = false); state.issues.forEach(i => { if (i.type === '에픽') ui.open[i.id] = false; }); saveUI(); render(); break;
       case 'goto-today': { const g = $('.gantt'); g.scrollTo({left: Math.max(0, g._todayX - 160), behavior:'smooth'}); break; }
@@ -1487,7 +1520,7 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowDown' && !DP.el) { e.preventDefault(); dpOpen(t); }
   else if (e.key === 'Tab') dpClose();
 }, true);
-dlg.addEventListener('cancel', e => { if (DP.esc || ['project','create','sprint'].includes(mode)) e.preventDefault(); });  // 입력 창은 Esc로도 닫히지 않음
+dlg.addEventListener('cancel', e => { if (DP.esc || ['project','create','sprint','github'].includes(mode)) e.preventDefault(); });  // 입력 창은 Esc로도 닫히지 않음
 dlg.addEventListener('close', dpClose);
 window.addEventListener('scroll', dpPlace, true);
 window.addEventListener('resize', dpPlace);
@@ -1496,7 +1529,7 @@ let rsTimer; window.addEventListener('resize', () => { clearTimeout(rsTimer); rs
 /* ================= link tool (텍스트 선택 → 링크) ================= */
 const LK = { btn:null, pop:null, open:false, field:null, s:0, e:0, mx:0, my:0 };
 const isLinkable = el => !!el && (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text')) &&
-  !el.classList.contains('dp') && el.id !== 'q' && !el.hasAttribute('list') && !el.closest('.lkp') &&
+  !el.classList.contains('dp') && el.id !== 'q' && !/^gh-/.test(el.id) && !el.hasAttribute('list') && !el.closest('.lkp') &&
   !/^(labels|key)$/.test(el.dataset.i || el.dataset.c || el.dataset.f || '');
 function lkHost(el){ return el.closest('dialog') || document.body; }
 function lkHideBtn(){ LK.btn?.remove(); LK.btn = null; }
@@ -1620,7 +1653,7 @@ async function asSyncFromFile(){
     const data = JSON.parse(await f.text()); const fileAt = data.savedAt || f.lastModified, localAt = state.savedAt || 0;
     if (fileAt > localAt + 2000) {
       const d = normalize(data);
-      if (d) { d.savedAt = fileAt; state = d; save(false); if (!dlg.open) render();
+      if (d) { d.savedAt = fileAt; state = d; save(false); if (!dlg.open) render(); if (typeof ghSchedule === 'function') ghSchedule();
         if (ui.pid !== 'all' && !proj(ui.pid)) { ui.pid = 'all'; render(); }
         const t = new Date(fileAt); toast(`작업 폴더의 최신 데이터를 불러왔습니다 (${t.getMonth()+1}/${t.getDate()} ${pad(t.getHours())}:${pad(t.getMinutes())} 저장본)`); return true; }
     }
@@ -1642,21 +1675,230 @@ document.addEventListener('visibilitychange', () => {
   else if (document.visibilityState === 'visible' && AS.status === 'on' && !AS.pending && !dlg.open) asSyncFromFile();
 });
 window.addEventListener('focus', () => { if (AS.status === 'on' && !AS.pending && !dlg.open && Date.now() - (AS.lastCheck||0) > 5000) { AS.lastCheck = Date.now(); asSyncFromFile(); } });
-window.addEventListener('beforeunload', e => { if (AS.pending) { asWrite(); e.preventDefault(); e.returnValue = ''; } });
+window.addEventListener('beforeunload', e => { if (AS.pending || GH.pending) { if (AS.pending) asWrite(); if (GH.pending) ghPush(false, true); e.preventDefault(); e.returnValue = ''; } });
+
+/* ================= GitHub 저장 (Contents API) ================= */
+const GH_CFG_KEY = 'pms-github', GH_TOKEN_KEY = 'pms-github-token';
+const GH = { cfg:{ repo:'', branch:'main', path:AUTO_NAME, auto:true, remember:true }, token:'', status:'off', sha:null,
+             lastPushed:'', pending:false, timer:null, last:0, err:'', isPrivate:null, lastCheck:0, busy:false };
+try { Object.assign(GH.cfg, JSON.parse(localStorage.getItem(GH_CFG_KEY) || '{}')); } catch(e) {}
+try { GH.token = localStorage.getItem(GH_TOKEN_KEY) || sessionStorage.getItem(GH_TOKEN_KEY) || ''; } catch(e) {}
+function closeMenu(){ const m = $('#data-menu'); if (m) m.hidden = true; }
+document.addEventListener('click', e => { if (!e.target.closest('.menu-wrap')) closeMenu(); });
+const b64enc = str => { const b = new TextEncoder().encode(str); let s = ''; for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode(...b.subarray(i, i + 0x8000)); return btoa(s); };
+const b64dec = b64 => { const bin = atob(b64.replace(/\s/g, '')); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new TextDecoder().decode(u); };
+function parseRepo(v){
+  v = String(v || '').trim().replace(/\.git$/, '').replace(/\/+$/, '');
+  const m = v.match(/github\.com[/:]([^/\s]+)\/([^/\s?#]+)/i) || v.match(/^([\w.-]+)\/([\w.-]+)$/);
+  return m ? `${m[1]}/${m[2]}` : '';
+}
+const ghPathEnc = p => p.split('/').map(encodeURIComponent).join('/');
+function ghErrMsg(status, body){
+  if (status === 401) return '토큰이 올바르지 않거나 만료되었습니다.';
+  if (status === 403) return /rate limit/i.test(body) ? 'GitHub 요청 한도를 넘었습니다. 잠시 후 다시 시도해 주세요.' : '권한이 없습니다. 토큰의 Contents 권한이 “Read and write”인지 확인해 주세요.';
+  if (status === 404) return '저장소·브랜치를 찾을 수 없습니다. 주소를 확인하고, 토큰에 이 저장소 접근 권한이 있는지 확인해 주세요.';
+  if (status === 409 || status === 422) return '저장 충돌(다른 곳에서 먼저 저장됨)';
+  return `GitHub 오류 (${status})`;
+}
+async function ghApi(path, opts = {}, token = GH.token){
+  let r;
+  try {
+    r = await fetch('https://api.github.com' + path, { ...opts, cache:'no-store',
+      headers:{ 'Accept':'application/vnd.github+json', 'Authorization':'Bearer ' + token, 'X-GitHub-Api-Version':'2022-11-28',
+                ...(opts.body ? {'Content-Type':'application/json'} : {}) } });
+  } catch(e) { const er = new Error('인터넷 연결 또는 GitHub 접속을 확인해 주세요.'); er.status = 0; throw er; }
+  if (!r.ok) { const t = await r.text().catch(() => ''); const er = new Error(ghErrMsg(r.status, t)); er.status = r.status; throw er; }
+  return r.status === 204 ? null : r.json();
+}
+const ghContentsUrl = (withRef = true) => `/repos/${GH.cfg.repo}/contents/${ghPathEnc(GH.cfg.path)}` + (withRef ? `?ref=${encodeURIComponent(GH.cfg.branch)}` : '');
+async function ghFetchRemote(){   // → {data, sha, text} | null(파일 없음)
+  try {
+    const j = await ghApi(ghContentsUrl());
+    let text;
+    if (j.content) text = b64dec(j.content);
+    else { const blob = await ghApi(`/repos/${GH.cfg.repo}/git/blobs/${j.sha}`); text = b64dec(blob.content); }   // 1MB 이상
+    GH.sha = j.sha; return { data: JSON.parse(text), sha: j.sha, text };
+  } catch(e) { if (e.status === 404) { GH.sha = null; return null; } throw e; }
+}
+function ghBadge(){
+  const b = $('#gh-badge'); if (!b) return;
+  const on = !!(GH.cfg.repo && GH.token);
+  b.hidden = !on && GH.status !== 'error'; b.className = 'btn as-badge';
+  const tm = GH.last ? new Date(GH.last) : null, hm = tm ? `${pad(tm.getHours())}:${pad(tm.getMinutes())}` : '';
+  if (GH.status === 'error') { b.textContent = '⚠ GitHub 오류'; b.title = GH.err + '\n눌러서 설정 확인'; b.classList.add('warn'); }
+  else if (GH.busy) { b.textContent = '⟳ GitHub 동기화 중…'; b.title = GH.cfg.repo; b.classList.add('ok'); }
+  else if (GH.pending) { b.textContent = '⟳ GitHub 저장 대기'; b.title = `잠시 뒤 ${GH.cfg.repo}에 저장합니다 (변경을 모아서 한 번에 커밋)`; b.classList.add('ok'); }
+  else if (on) { b.textContent = `🐙 GitHub${hm ? ' ✓ ' + hm : ''}`; b.title = `저장소: ${GH.cfg.repo} (${GH.cfg.branch})\n파일: ${GH.cfg.path}\n${GH.cfg.auto ? '변경 시 자동 저장' : '자동 저장 꺼짐 — 데이터 메뉴에서 수동 저장'}${GH.isPrivate === false ? '\n⚠ 공개 저장소입니다' : ''}\n눌러서 설정`; b.classList.add(GH.isPrivate === false ? 'warn' : 'ok'); }
+}
+function ghSchedule(){
+  if (!GH.cfg.repo || !GH.token || !GH.cfg.auto || GH.status === 'error') return;
+  GH.pending = true; ghBadge(); clearTimeout(GH.timer); GH.timer = setTimeout(() => ghPush(false), 8000);
+}
+async function ghPush(manual, keepalive){
+  if (!GH.cfg.repo || !GH.token) { if (manual) openGitHub(); return; }
+  clearTimeout(GH.timer);
+  const text = JSON.stringify(state, null, 2);
+  if (text === GH.lastPushed && !manual) { GH.pending = false; ghBadge(); return; }
+  if (GH.busy && !keepalive) { GH.timer = setTimeout(() => ghPush(manual), 1500); return; }
+  GH.busy = true; ghBadge();
+  const t = new Date(), stamp = `${fmt(t)} ${pad(t.getHours())}:${pad(t.getMinutes())}`;
+  const put = sha => ghApi(ghContentsUrl(false), { method:'PUT', keepalive:!!keepalive && text.length < 60000,
+    body: JSON.stringify({ message:`ProjectS 데이터 저장 ${stamp}`, content:b64enc(text), branch:GH.cfg.branch, ...(sha ? {sha} : {}) }) });
+  try {
+    if (GH.sha === null && !GH.fetchedOnce) { await ghFetchRemote().catch(() => {}); GH.fetchedOnce = true; }
+    let res;
+    try { res = await put(GH.sha); }
+    catch(e) {
+      if (e.status !== 409 && e.status !== 422) throw e;
+      const remote = await ghFetchRemote();          // 다른 PC에서 먼저 저장한 경우
+      if (remote && (remote.data.savedAt || 0) > (state.savedAt || 0) + 2000 && !confirm(`GitHub에 이 브라우저보다 최신 데이터가 있습니다 (${new Date(remote.data.savedAt).toLocaleString()}).\n\n[확인] 지금 내용으로 덮어쓰기\n[취소] GitHub 데이터 불러오기`)) {
+        ghApply(remote); return;
+      }
+      res = await put(remote ? remote.sha : null);
+    }
+    GH.sha = res.content.sha; GH.lastPushed = text; GH.last = Date.now(); GH.pending = false; GH.status = 'on'; GH.err = '';
+    if (manual) toast(`GitHub에 저장했습니다 (${GH.cfg.repo})`);
+  } catch(e) { GH.status = 'error'; GH.err = e.message; GH.pending = false; if (manual) toast('GitHub 저장 실패: ' + e.message); }
+  finally { GH.busy = false; ghBadge(); }
+}
+function ghApply(remote){
+  const d = normalize(remote.data); if (!d) { toast('GitHub의 파일 형식이 올바르지 않습니다'); return false; }
+  d.savedAt = remote.data.savedAt || Date.now(); state = d; save(false);
+  GH.lastPushed = JSON.stringify(state, null, 2); GH.pending = false;
+  if (ui.pid !== 'all' && !proj(ui.pid)) ui.pid = 'all';
+  if (!dlg.open) render(); if (typeof asSchedule === 'function') asSchedule();   // 작업 폴더에도 반영
+  const t = new Date(d.savedAt); toast(`GitHub의 최신 데이터를 불러왔습니다 (${t.getMonth()+1}/${t.getDate()} ${pad(t.getHours())}:${pad(t.getMinutes())} 저장본)`);
+  ghBadge(); return true;
+}
+// 열 때·창으로 돌아올 때: GitHub 쪽이 더 최신이면 자동으로 불러오기, 이 브라우저가 더 최신이면 올리기
+async function ghSync(){
+  if (!GH.cfg.repo || !GH.token || GH.busy || GH.pending) return;
+  GH.busy = true; ghBadge();
+  try {
+    const remote = await ghFetchRemote(); GH.fetchedOnce = true; GH.status = 'on'; GH.err = '';
+    if (remote) {
+      if ((remote.data.savedAt || 0) > (state.savedAt || 0) + 2000) { GH.busy = false; ghApply(remote); return; }
+      if (remote.text === JSON.stringify(state, null, 2)) GH.lastPushed = remote.text;
+    }
+    GH.busy = false;
+    if (!remote || (state.savedAt || 0) > (remote.data.savedAt || 0) + 2000) await ghPush(false);
+  } catch(e) { GH.status = 'error'; GH.err = e.message; }
+  finally { GH.busy = false; ghBadge(); }
+}
+async function ghPullManual(){
+  if (!GH.cfg.repo || !GH.token) return openGitHub();
+  try {
+    const remote = await ghFetchRemote();
+    if (!remote) return toast('GitHub에 아직 저장된 데이터 파일이 없습니다');
+    if (!confirm(`GitHub에 저장된 데이터를 불러옵니다 (${remote.data.savedAt ? new Date(remote.data.savedAt).toLocaleString() : '저장 시각 없음'} 저장본).\n현재 화면의 데이터는 대체됩니다. 계속할까요?`)) return;
+    remote.data.savedAt = Math.max(remote.data.savedAt || 0, state.savedAt || 0) + 1;   // 불러온 내용을 최신으로
+    ghApply(remote);
+  } catch(e) { toast('불러오기 실패: ' + e.message); }
+}
+function openGitHub(){
+  mode = 'github'; dlg.className = '';
+  const c = GH.cfg;
+  dlg.innerHTML = `
+    <div class="dlg-h"><h2>🐙 GitHub에 데이터 저장</h2><button class="x" data-action="close" aria-label="닫기">✕</button></div>
+    <div class="dlg-b">
+      <p class="muted" style="margin:0 0 14px;font-size:13px">입력한 내용을 GitHub 저장소의 JSON 파일로 저장합니다. 내용이 바뀌면 자동으로 저장(커밋)하고, 다른 PC에서 열면 최신 내용을 불러옵니다.
+        <b style="color:var(--warn)">업무 내용이 담기므로 반드시 비공개(Private) 저장소를 사용하세요.</b></p>
+      <div class="form">
+        <label class="full">저장소 *<input type="text" id="gh-repo" value="${esc(c.repo)}" placeholder="아이디/저장소이름  또는  https://github.com/아이디/저장소이름" autocomplete="off" spellcheck="false"></label>
+        <label class="half">브랜치<input type="text" id="gh-branch" value="${esc(c.branch)}" placeholder="main" autocomplete="off" spellcheck="false"></label>
+        <label class="half">파일 경로<input type="text" id="gh-path" value="${esc(c.path)}" placeholder="${AUTO_NAME}" autocomplete="off" spellcheck="false"></label>
+        <label class="full">액세스 토큰 *<input type="password" id="gh-token" value="${esc(GH.token)}" placeholder="github_pat_..." autocomplete="off" spellcheck="false"></label>
+      </div>
+      <details class="gh-help"><summary>토큰 만드는 방법</summary>
+        <ol>
+          <li><a class="lnk" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">GitHub → Fine-grained token 만들기</a> 페이지를 엽니다.</li>
+          <li><b>Expiration</b>: 원하는 기간(예: 90일) 선택</li>
+          <li><b>Repository access</b>: <i>Only select repositories</i> → 데이터를 저장할 저장소 하나만 선택</li>
+          <li><b>Permissions → Repository → Contents</b>: <i>Read and write</i> (나머지는 그대로)</li>
+          <li>Generate 후 표시되는 토큰(github_pat_…)을 위 칸에 붙여넣기</li>
+        </ol></details>
+      <label class="chk"><input type="checkbox" id="gh-auto" ${c.auto ? 'checked' : ''}> 내용이 바뀌면 자동으로 GitHub에 저장 (몇 초간 변경을 모아 한 번에 커밋)</label>
+      <label class="chk"><input type="checkbox" id="gh-remember" ${c.remember ? 'checked' : ''}> 이 브라우저에 토큰 기억 (공용 PC에서는 끄세요 — 끄면 브라우저를 닫을 때 지워짐)</label>
+      <div class="gh-status">${GH.cfg.repo && GH.token ? (GH.status === 'error' ? `⚠ ${esc(GH.err)}` : `연결됨: ${esc(GH.cfg.repo)} · ${GH.last ? '마지막 저장 ' + dt(GH.last) : '저장 기록 없음'}${GH.isPrivate === false ? ' · ⚠ 공개 저장소' : ''}`) : '아직 연결되지 않았습니다.'}</div>
+      <div class="err" id="err"></div>
+    </div>
+    <div class="dlg-f">
+      <div>${GH.cfg.repo && GH.token ? '<button class="btn danger" data-action="gh-disconnect">연결 해제</button>' : ''}</div>
+      <div class="row"><button class="btn" data-action="close">취소</button><button class="btn primary" data-action="gh-connect">저장하고 연결</button></div>
+    </div>`;
+  if (!dlg.open) dlg.showModal();
+  setTimeout(() => (GH.cfg.repo ? $('#gh-token') : $('#gh-repo'))?.focus());
+}
+async function ghConnectFromDialog(){
+  const err = m => { $('#err').textContent = m; };
+  const repo = parseRepo($('#gh-repo').value), branch = $('#gh-branch').value.trim() || 'main';
+  const path = ($('#gh-path').value.trim() || AUTO_NAME).replace(/^\/+/, ''), token = $('#gh-token').value.trim();
+  const auto = $('#gh-auto').checked, remember = $('#gh-remember').checked;
+  if (!repo) return err('저장소를 “아이디/저장소이름” 형식으로 입력해 주세요.');
+  if (!token) return err('액세스 토큰을 입력해 주세요.');
+  if (/\.html?$/i.test(path)) return err('데이터 파일 경로는 .json으로 해 주세요. (앱 파일을 덮어쓰지 않도록)');
+  const btn = dlg.querySelector('[data-action=gh-connect]'); btn.disabled = true; btn.textContent = '확인 중…'; err('');
+  try {
+    const info = await ghApi(`/repos/${repo}`, {}, token);
+    if (info.permissions && !info.permissions.push) throw Object.assign(new Error('이 토큰으로는 저장소에 쓸 수 없습니다. Contents 권한을 “Read and write”로 해 주세요.'), {status:403});
+    if (!info.private && !confirm(`⚠ “${repo}”는 공개(Public) 저장소입니다.\n여기에 저장하면 입력한 업무 내용을 누구나 볼 수 있습니다.\n\n그래도 이 저장소에 저장할까요? (비공개 저장소 사용을 권장합니다)`)) { btn.disabled = false; btn.textContent = '저장하고 연결'; return; }
+    await ghApi(`/repos/${repo}/branches/${encodeURIComponent(branch)}`, {}, token);
+    Object.assign(GH.cfg, { repo, branch, path, auto, remember }); GH.token = token; GH.isPrivate = !!info.private;
+    try {
+      localStorage.setItem(GH_CFG_KEY, JSON.stringify(GH.cfg));
+      if (remember) { localStorage.setItem(GH_TOKEN_KEY, token); sessionStorage.removeItem(GH_TOKEN_KEY); }
+      else { sessionStorage.setItem(GH_TOKEN_KEY, token); localStorage.removeItem(GH_TOKEN_KEY); }
+    } catch(e) {}
+    GH.sha = null; GH.fetchedOnce = false; GH.lastPushed = ''; GH.status = 'on'; GH.err = '';
+    const remote = await ghFetchRemote(); GH.fetchedOnce = true;
+    dlg.close();
+    if (remote && remote.text !== JSON.stringify(state, null, 2) &&
+        confirm(`GitHub의 ${path}에 이미 데이터가 있습니다 (${remote.data.savedAt ? new Date(remote.data.savedAt).toLocaleString() : '저장 시각 없음'} 저장본).\n\n[확인] GitHub 데이터를 불러오기\n[취소] 지금 이 브라우저의 데이터로 덮어쓰기`)) {
+      remote.data.savedAt = Math.max(remote.data.savedAt || 0, state.savedAt || 0) + 1; ghApply(remote);
+    } else { await ghPush(true); }
+    ghBadge();
+  } catch(e) { btn.disabled = false; btn.textContent = '저장하고 연결'; err(e.message); }
+}
+function ghDisconnect(){
+  if (!confirm('GitHub 연결을 해제할까요?\n이 브라우저에 저장된 토큰이 지워집니다. (GitHub에 이미 저장된 파일은 그대로 남습니다)')) return;
+  clearTimeout(GH.timer); GH.token = ''; GH.cfg.repo = ''; GH.status = 'off'; GH.pending = false; GH.sha = null; GH.last = 0;
+  try { localStorage.removeItem(GH_TOKEN_KEY); sessionStorage.removeItem(GH_TOKEN_KEY); localStorage.setItem(GH_CFG_KEY, JSON.stringify(GH.cfg)); } catch(e) {}
+  dlg.close(); ghBadge(); toast('GitHub 연결을 해제했습니다');
+}
+async function ghInit(){
+  ghBadge();
+  if (!GH.cfg.repo || !GH.token) return;
+  try { const info = await ghApi(`/repos/${GH.cfg.repo}`); GH.isPrivate = !!info.private; } catch(e) {}
+  await ghSync();
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && GH.pending) ghPush(false, true);
+  else if (document.visibilityState === 'visible' && !dlg.open && Date.now() - GH.lastCheck > 20000) { GH.lastCheck = Date.now(); ghSync(); }
+});
+window.addEventListener('focus', () => { if (!dlg.open && Date.now() - GH.lastCheck > 20000) { GH.lastCheck = Date.now(); ghSync(); } });
 
 /* ================= import / export ================= */
-function exportJSON(){
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+async function exportJSON(){
+  const txt = JSON.stringify(state, null, 2);
+  if (window.showSaveFilePicker) {   // 크롬·엣지: 저장할 위치를 직접 선택
+    try {
+      const h = await window.showSaveFilePicker({ suggestedName:AUTO_NAME, id:'pms-export', startIn:'documents',
+        types:[{ description:'ProjectS 데이터 (JSON)', accept:{'application/json':['.json']} }] });
+      const w = await h.createWritable(); await w.write(txt); await w.close();
+      toast(`PC에 저장했습니다: ${h.name}`); return;
+    } catch(e) { if (e.name === 'AbortError') return; }
+  }
+  const blob = new Blob([txt], {type:'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = AUTO_NAME;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  toast('JSON 파일로 내보냈습니다');
+  toast(`다운로드 폴더에 ${AUTO_NAME}로 저장했습니다`);
 }
 $('#file').addEventListener('change', async e => {
   const file = e.target.files[0]; e.target.value = ''; if (!file) return;
   try {
     const data = normalize(JSON.parse(await file.text())); if (!data) throw 0;
     if (!confirm(`프로젝트 ${data.projects.length}개, 이슈 ${data.issues.length}개를 불러옵니다. 현재 데이터는 대체됩니다. 계속할까요?`)) return;
-    state = data; ui.pid = 'all'; ui.epicF = ''; save(); saveUI(); render(); toast('불러왔습니다');
+    state = data; ui.pid = 'all'; ui.epicF = ''; save(); saveUI(); render(); toast(`PC 파일에서 불러왔습니다: ${file.name}`);
   } catch(err) { toast('올바른 스케줄러 JSON 파일이 아닙니다'); }
 });
 let toastTimer;
@@ -1664,6 +1906,7 @@ function toast(msg){ const el = $('#toast'); el.textContent = msg; el.classList.
 
 render();
 asInit();
+ghInit();
 </script>
 </body>
 </html>
