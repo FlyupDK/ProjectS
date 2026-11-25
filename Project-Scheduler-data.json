@@ -1020,87 +1020,6 @@
       ]
     },
     {
-      "id": "ixkmna5c",
-      "projectId": "ui1q8u8v",
-      "num": 23,
-      "type": "작업",
-      "title": "ECN",
-      "desc": "",
-      "status": "할 일",
-      "priority": "보통",
-      "assignee": "나",
-      "labels": [],
-      "points": null,
-      "start": "",
-      "due": "",
-      "epicId": "",
-      "sprintId": "",
-      "order": 32,
-      "created": 1793600005368,
-      "updated": 1793600005368,
-      "comments": [],
-      "history": [
-        {
-          "at": 1793600005368,
-          "text": "이슈를 만들었습니다"
-        }
-      ]
-    },
-    {
-      "id": "hjktq8w8",
-      "projectId": "ui1q8u8v",
-      "num": 24,
-      "type": "작업",
-      "title": "도면 준비",
-      "desc": "",
-      "status": "할 일",
-      "priority": "보통",
-      "assignee": "나",
-      "labels": [],
-      "points": null,
-      "start": "",
-      "due": "",
-      "epicId": "",
-      "sprintId": "",
-      "order": 33,
-      "created": 1793600011143,
-      "updated": 1793600011143,
-      "comments": [],
-      "history": [
-        {
-          "at": 1793600011143,
-          "text": "이슈를 만들었습니다"
-        }
-      ]
-    },
-    {
-      "id": "bg16xc2b",
-      "projectId": "ui1q8u8v",
-      "num": 25,
-      "type": "작업",
-      "title": "DV Test",
-      "desc": "",
-      "status": "할 일",
-      "priority": "보통",
-      "assignee": "나",
-      "labels": [],
-      "points": null,
-      "start": "",
-      "due": "",
-      "epicId": "",
-      "sprintId": "",
-      "order": 34,
-      "created": 1793600028710,
-      "updated": 1793600028710,
-      "comments": [],
-      "history": [
-        {
-          "at": 1793600028710,
-          "text": "이슈를 만들었습니다"
-        }
-      ]
-    },
-    {
       "id": "cow868g5",
       "projectId": "ui1q8u8v",
       "num": 26,
@@ -1326,5 +1245,5 @@
   "keyFormat": "ME",
   "issueSeq": 29,
   "cleanedAbbr": true,
-  "savedAt": 1795593078413
+  "savedAt": 1795593130675
 }
