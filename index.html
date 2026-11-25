@@ -331,6 +331,11 @@ a.lnk:hover{filter:brightness(1.2)}
 .gh-help summary{cursor:pointer;color:var(--accent);font-weight:600}
 .gh-help ol{margin:8px 0 0;padding-left:20px;line-height:1.8}
 .gh-status{margin-top:14px;font-size:12px;padding:8px 10px;border-radius:8px;background:var(--surface2);color:var(--muted)}
+.pc-tag{font-size:10.5px;font-weight:700;color:var(--ok);background:var(--ok-weak);border-radius:4px;padding:0 5px;margin-left:2px}
+.sec-box.fin{opacity:.9}
+.sec-box.fin .sb-h{background:color-mix(in srgb,var(--ok-weak) 55%,var(--surface2))}
+.done-h{font-size:13px;font-weight:700;color:var(--ok);margin:18px 0 8px}
+.spc.fin{border-left-color:var(--ok)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:99}
 .toast.show{opacity:1}
 @media (max-width:980px){.dash{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.bl{grid-template-columns:1fr}.epics{position:static}.det{grid-template-columns:1fr}}
@@ -459,6 +464,7 @@ function keyOf(i){ return KEY_PREFIX + String(i.num).padStart(4,'0'); }   // 전
 function scopedProjects(){ return ui.pid === 'all' ? state.projects : state.projects.filter(p => p.id === ui.pid); }
 function inScope(i){ return ui.pid === 'all' || i.projectId === ui.pid; }
 function children(e){ return state.issues.filter(i => i.epicId === e.id); }
+function lastDoneSprint(pid){ return state.sprints.filter(s => s.projectId === pid && s.state === '완료').sort((a,b) => (b.completedAt||0) - (a.completedAt||0))[0]; }
 function maxOrder(){ return state.issues.reduce((m,i) => Math.max(m, i.order||0), 0); }
 const isLate = (dateStr, done) => !!dateStr && !done && parse(dateStr) < today();
 const projLate = p => isLate(p.end, p.status === '완료');
@@ -659,7 +665,14 @@ function emptyProjects(){
 /* ================= dashboard ================= */
 function projectBar(){
   return `<div class="pbar">${[{id:'all', name:'모든 프로젝트'}, ...state.projects].map(p =>
-    `<button class="pchip ${ui.pid===p.id?'on':''}" data-pick="${p.id}">${p.color ? `<span class="sw" style="--c:${p.color}"></span>` : ''}${esc(plain(p.name))}</button>`).join('')}</div>`;
+    `<button class="pchip ${ui.pid===p.id?'on':''}" data-pick="${p.id}">${p.color ? `<span class="sw" style="--c:${p.color}"></span>` : ''}${esc(plain(p.name))}${pchipTag(p)}</button>`).join('')}</div>`;
+}
+function pchipTag(p){
+  if (!p.id || p.id === 'all') return '';
+  if (p.status === '완료') return '<span class="pc-tag">✓ 프로젝트 완료</span>';
+  if (state.sprints.some(s => s.projectId === p.id && s.state === '진행 중')) return '';
+  const ld = lastDoneSprint(p.id);
+  return ld ? `<span class="pc-tag" title="${esc(plain(ld.name))} 완료${ld.completedAt ? ' · ' + dt(ld.completedAt) : ''}">✓ ${esc(plain(ld.name))} 완료</span>` : '';
 }
 function renderDash(){
   const all = state.projects, sel = ui.pid !== 'all' ? proj(ui.pid) : null;
@@ -702,15 +715,17 @@ function renderDash(){
   const rangeLabel = {'14':'2주','30':'1개월','90':'3개월','all':'전체'}[range];
   const counts = s => s === '전체' ? all.length : all.filter(p => p.status === s).length;
 
-  const spList = [...actives, ...planned];
+  const recentDone = scope.filter(p => !actives.some(s => s.projectId === p.id)).map(p => lastDoneSprint(p.id)).filter(Boolean);
+  const spList = [...actives, ...planned, ...recentDone];
   const spHtml = spList.length ? spList.map(s => {
-    const si = state.issues.filter(i => i.sprintId === s.id), p = proj(s.projectId), n = ddayN(s.end), act = s.state === '진행 중';
+    const si = state.issues.filter(i => i.sprintId === s.id), p = proj(s.projectId), n = ddayN(s.end), act = s.state === '진행 중', fin = s.state === '완료';
     const cnt = I_STATUS.map(st => si.filter(i => i.status === st).length);
-    const startPast = !act && s.start && ddayN(s.start) <= 0;
-    const canStart = !act && !state.sprints.some(x => x.projectId === s.projectId && x.state === '진행 중');
-    return `<div class="spc ${act ? '' : 'plan'}" data-gosprint="${s.id}" style="--c:${p.color}" title="${act ? '보드에서 보기' : '백로그에서 보기'}">
-      <div class="meta"><b class="spn">${rich(s.name)} ${act ? '<span class="lz lz1">진행 중</span>' : `<span class="lz lz0">시작 전</span>${startPast ? ' <span class="due late">시작일 지남</span>' : ''}`}</b>
+    const startPast = !act && !fin && s.start && ddayN(s.start) <= 0;
+    const canStart = !act && !fin && !state.sprints.some(x => x.projectId === s.projectId && x.state === '진행 중');
+    return `<div class="spc ${act ? '' : fin ? 'fin' : 'plan'}" data-gosprint="${s.id}" style="--c:${p.color}" title="${act ? '보드에서 보기' : '백로그에서 보기'}">
+      <div class="meta"><b class="spn">${rich(s.name)} ${act ? '<span class="lz lz1">진행 중</span>' : fin ? `<span class="lz lz3">✓ 완료</span>` : `<span class="lz lz0">시작 전</span>${startPast ? ' <span class="due late">시작일 지남</span>' : ''}`}</b>
         <span class="row" style="gap:8px;flex-wrap:nowrap">${act ? `<span class="dd ${n<0?'late':''}">${n >= 0 ? `${n}일 남음` : `${-n}일 초과`}</span>`
+          : fin ? `<button class="btn sm" data-action="reopen-sprint" data-id="${s.id}">↺ 다시 열기</button>`
           : (canStart ? `<button class="btn sm primary" data-action="start-sprint" data-id="${s.id}">▶ 스프린트 시작</button>` : '')}
         <button class="btn sm" data-action="edit-sprint" data-id="${s.id}" title="스프린트 이름·목표·기간 수정">✎ 편집</button></span></div>
       <div class="meta"><span>${sel ? '' : rich(p.name) + ' · '}${short(s.start)} ~ ${short(s.end)}${s.goal ? ' · 🎯 ' + rich(s.goal) : ''}</span><span>${cnt[3]}/${si.length} 완료</span></div>
@@ -748,7 +763,7 @@ function renderDash(){
     </div>
     <div class="dash2">
       <div class="col2">
-        <section class="panel"><h2>스프린트 <span class="badge">진행 ${actives.length} · 예정 ${planned.length}</span></h2>${spHtml}</section>
+        <section class="panel"><h2>스프린트 <span class="badge">진행 ${actives.length} · 예정 ${planned.length}${recentDone.length ? ' · 완료 ' + recentDone.length : ''}</span></h2>${spHtml}</section>
         <section class="panel"><h2>진행 중인 이슈 <span class="badge">${working.length}</span></h2>${wkHtml}</section>
       </div>
       <aside class="panel">
@@ -769,6 +784,7 @@ function card(p){
   const cnt = I_STATUS.map(s => iss.filter(i => i.status === s).length);
   const pr = progress(p), late = projLate(p), n = p.end ? ddayN(p.end) : null;
   const sp = state.sprints.find(s => s.projectId === p.id && s.state === '진행 중');
+  const ld = !sp ? lastDoneSprint(p.id) : null;
   const nextMs = p.milestones.filter(m => !m.done).sort((a,b) => a.date.localeCompare(b.date))[0];
   const sCls = p.status==='진행 중' ? 'b-진행' : p.status==='완료' ? 'b-완료' : '';
   const on = ui.pid === p.id, dim = ui.pid !== 'all' && !on;
@@ -781,7 +797,7 @@ function card(p){
     <div class="stack" title="${I_STATUS.map((s,k) => `${s} ${cnt[k]}`).join(' · ')}">${cnt.map((c,k) => c ? `<i class="sk${k}" style="flex:${c}"></i>` : '').join('')}</div>
     <div class="meta"><span>${short(p.start)} ~ ${short(p.end)}</span>
       ${n !== null && p.status !== '완료' ? `<span class="dd ${n<0?'late':''}">${ddayTxt(n)}</span>` : ''}</div>
-    ${sp || nextMs ? `<div class="next">${sp ? `🏃 <b>${rich(sp.name)}</b> · ~${short(sp.end)}<br>` : ''}${nextMs ? `◆ 다음 마일스톤: <b>${rich(nextMs.name)}</b> · ${short(nextMs.date)} (${ddayTxt(ddayN(nextMs.date))})` : ''}</div>` : ''}
+    ${sp || ld || nextMs ? `<div class="next">${sp ? `🏃 <b>${rich(sp.name)}</b> · ~${short(sp.end)}<br>` : ''}${ld ? `<span style="color:var(--ok)">✓ <b>${rich(ld.name)}</b> 완료${ld.completedAt ? ' · ' + short(fmt(new Date(ld.completedAt))) : ''}</span><br>` : ''}${nextMs ? `◆ 다음 마일스톤: <b>${rich(nextMs.name)}</b> · ${short(nextMs.date)} (${ddayTxt(ddayN(nextMs.date))})` : ''}</div>` : ''}
   </div>`;
 }
 
@@ -810,19 +826,21 @@ function renderBacklog(){
     if (projs.length > 1) main += `<h3 class="grp"><span class="sw" style="--c:${p.color}"></span>${rich(p.name)}</h3>`;
     const sps = state.sprints.filter(s => s.projectId === p.id && s.state !== '완료')
       .sort((a,b) => (b.state==='진행 중') - (a.state==='진행 중') || (a.start||'').localeCompare(b.start||''));
+    const doneSps = state.sprints.filter(s => s.projectId === p.id && s.state === '완료').sort((a,b) => (b.completedAt||0) - (a.completedAt||0));
     const hasActive = sps.some(s => s.state === '진행 중');
-    for (const s of sps) {
+    const secHtml = s => {
       const all = state.issues.filter(i => i.sprintId === s.id);
       const list = all.filter(sel).sort(byOrder);
-      main += `<section class="sec-box ${s.state==='진행 중'?'active':''}" data-drop="sprint:${s.id}">
+      return `<section class="sec-box ${s.state==='진행 중'?'active':''} ${s.state==='완료'?'fin':''}" data-drop="sprint:${s.id}">
         <div class="sb-h">
           <b>${rich(s.name)}</b><span class="dates">${short(s.start)} ~ ${short(s.end)} · 이슈 ${all.length}개</span>
-          ${s.state === '진행 중' ? '<span class="lz lz1">진행 중</span>' : ''}
+          ${s.state === '진행 중' ? '<span class="lz lz1">진행 중</span>' : s.state === '완료' ? `<span class="lz lz3">✓ 완료${s.completedAt ? ' · ' + dt(s.completedAt) : ''}</span>` : ''}
           <span class="sp"></span>
           <span class="pts" style="background:var(--neutral-weak)" title="할 일 포인트">${sum(all, i => i.status==='할 일')}</span>
           <span class="pts" style="background:var(--accent-weak);color:var(--accent)" title="진행 중·검토 중 포인트">${sum(all, i => i.status==='진행 중'||i.status==='검토 중')}</span>
           <span class="pts" style="background:var(--ok-weak);color:var(--ok)" title="완료 포인트">${sum(all, i => i.status==='완료')}</span>
           ${s.state === '진행 중' ? `<button class="btn sm primary" data-action="complete-sprint" data-id="${s.id}">스프린트 완료</button>`
+            : s.state === '완료' ? `<button class="btn sm" data-action="reopen-sprint" data-id="${s.id}" title="완료 표시를 취소하고 다시 진행합니다">↺ 다시 열기</button>`
             : `<button class="btn sm" data-action="start-sprint" data-id="${s.id}" ${hasActive?'disabled title="진행 중인 스프린트를 먼저 완료하세요"':''}>스프린트 시작</button>`}
           <button class="btn sm" data-action="edit-sprint" data-id="${s.id}">✎ 편집</button>
           <button class="btn sm danger" data-action="del-sprint" data-id="${s.id}" title="스프린트 삭제">삭제</button>
@@ -831,7 +849,8 @@ function renderBacklog(){
         <div class="dz-list">${list.map(i => issueRow(i)).join('') || `<div class="dz-empty">백로그에서 이슈를 끌어와 스프린트를 계획하세요.</div>`}</div>
         <form class="qc" data-qc="sprint:${s.id}"><input placeholder="+ 이슈 만들기 (요약 입력 후 Enter)"></form>
       </section>`;
-    }
+    };
+    sps.forEach(s => main += secHtml(s));
     const bl = state.issues.filter(i => i.projectId === p.id && !i.sprintId);
     const blist = bl.filter(sel).sort(byOrder);
     main += `<section class="sec-box" data-drop="backlog:${p.id}">
@@ -840,10 +859,7 @@ function renderBacklog(){
       <div class="dz-list">${blist.map(i => issueRow(i)).join('') || `<div class="dz-empty">백로그가 비어 있습니다.</div>`}</div>
       <form class="qc" data-qc="backlog:${p.id}"><input placeholder="+ 이슈 만들기 (요약 입력 후 Enter)"></form>
     </section>`;
-    const done = state.sprints.filter(s => s.projectId === p.id && s.state === '완료');
-    if (done.length) main += `<details class="done-sp"><summary>완료된 스프린트 ${done.length}개</summary>${done.map(s => {
-      const si = state.issues.filter(i => i.sprintId === s.id);
-      return `<div class="ds-row"><b>${rich(s.name)}</b><span>${short(s.start)} ~ ${short(s.end)}</span><span>완료 이슈 ${si.filter(i => i.status==='완료').length}개 · ${sum(si, i => i.status==='완료')}pt</span></div>`; }).join('')}</details>`;
+    if (doneSps.length) main += `<div class="done-h">✓ 완료된 스프린트 ${doneSps.length}개</div>` + doneSps.map(secHtml).join('');
   }
 
   $('#view').innerHTML = `${projectBar()}
@@ -882,7 +898,7 @@ function renderBoard(){
   for (const p of projs) {
     const a = actives.find(s => s.projectId === p.id);
     issues.push(...state.issues.filter(i => i.projectId === p.id && i.type !== '에픽' &&
-      (a ? i.sprintId === a.id : (!i.sprintId || sprintOf(i.sprintId)?.state !== '완료'))));
+      (a ? i.sprintId === a.id : true)));
   }
   issues = issues.filter(i => matchQ(i) && matchF(i));
   let info;
@@ -891,7 +907,10 @@ function renderBoard(){
     if (a) { const n = ddayN(a.end);
       info = `<div><h2>${rich(a.name)}</h2><div class="dates">${short(a.start)} ~ ${short(a.end)} · ${n >= 0 ? `남은 기간 ${n}일` : `<span style="color:var(--danger)">기간 ${-n}일 초과</span>`}${a.goal ? ` · 🎯 ${rich(a.goal)}` : ''}</div></div>
         <div class="row"><button class="btn" data-action="edit-sprint" data-id="${a.id}">✎ 스프린트 편집</button><button class="btn primary" data-action="complete-sprint" data-id="${a.id}">스프린트 완료</button></div>`;
-    } else info = `<div><h2>${esc(projs[0].name)} 보드</h2><div class="dates">진행 중인 스프린트가 없어 프로젝트의 모든 이슈를 표시합니다. 백로그에서 스프린트를 시작할 수 있습니다.</div></div>`;
+    } else { const ld = lastDoneSprint(projs[0].id);
+      info = `<div><h2>${esc(plain(projs[0].name))} 보드 ${ld ? `<span class="lz lz3" style="font-size:12px;vertical-align:3px">✓ ${esc(plain(ld.name))} 완료</span>` : ''}</h2>
+        <div class="dates">진행 중인 스프린트가 없어 프로젝트의 모든 이슈(완료된 스프린트 포함)를 표시합니다.</div></div>
+        ${ld ? `<button class="btn" data-action="reopen-sprint" data-id="${ld.id}">↺ ${esc(plain(ld.name))} 다시 열기</button>` : ''}`; }
   } else info = `<div><h2>모든 프로젝트 보드</h2><div class="dates">활성 스프린트 ${actives.length}개의 이슈 + 스프린트가 없는 프로젝트의 이슈</div></div>`;
 
   const cols = I_STATUS.map((st, k) => {
@@ -1223,12 +1242,20 @@ function startSprint(id){
 }
 function completeSprint(id){
   const s = sprintOf(id), all = state.issues.filter(i => i.sprintId === id), open = all.filter(i => i.status !== '완료');
-  const next = state.sprints.filter(x => x.projectId === s.projectId && x.state === '예정').sort((a,b) => (a.start||'').localeCompare(b.start||''))[0];
-  const dest = next ? `다음 스프린트 “${next.name}”` : '백로그';
-  if (!confirm(`“${s.name}”을(를) 완료합니다.\n\n완료된 이슈 ${all.length - open.length}개${open.length ? `\n미완료 이슈 ${open.length}개 → ${dest}(으)로 이동` : ''}`)) return;
-  open.forEach(i => setField(i, 'sprintId', next ? next.id : ''));
+  if (!confirm(`“${s.name}”을(를) 완료로 표시합니다.\n\n완료된 이슈 ${all.length - open.length}개${open.length ? ` · 미완료 이슈 ${open.length}개` : ''}\n이슈는 모두 그대로 남아 계속 보이고, 언제든 “다시 열기”로 되돌릴 수 있습니다.`)) return;
   s.state = '완료'; s.completedAt = Date.now();
-  save(); render(); toast('스프린트를 완료했습니다');
+  save(); render(); toast(`${s.name}을(를) 완료로 표시했습니다`);
+}
+function reopenSprint(id){
+  const s = sprintOf(id);
+  const otherActive = state.sprints.some(x => x.projectId === s.projectId && x.state === '진행 중' && x.id !== id);
+  // 예전 방식으로 완료할 때 다른 곳으로 옮겨졌던 미완료 이슈 찾기 (복구용)
+  const moved = s.completedAt ? state.issues.filter(i => i.sprintId !== id &&
+    i.history.some(h => Math.abs(h.at - s.completedAt) < 10000 && h.text.startsWith(`스프린트: ${s.name} → `))) : [];
+  s.state = otherActive ? '예정' : '진행 중'; delete s.completedAt;
+  if (moved.length && confirm(`이 스프린트를 완료할 때 백로그 등으로 옮겨졌던 미완료 이슈 ${moved.length}개가 있습니다.\n다시 “${s.name}”(으)로 가져올까요?`))
+    moved.forEach(i => setField(i, 'sprintId', id));
+  save(); render(); toast(`${s.name}을(를) 다시 열었습니다${otherActive ? ' (진행 중인 스프린트가 있어 “예정”으로)' : ''}`);
 }
 function deleteSprint(id){
   const s = sprintOf(id), n = state.issues.filter(i => i.sprintId === id).length;
@@ -1303,6 +1330,7 @@ document.addEventListener('click', e => {
       case 'new-sprint': newSprint(id); break;
       case 'start-sprint': startSprint(id); break;
       case 'complete-sprint': completeSprint(id); break;
+      case 'reopen-sprint': reopenSprint(id); break;
       case 'edit-sprint': openSprint(id); break;
       case 'del-sprint': deleteSprint(id); break;
       case 'save-sprint': saveSprint(); break;
