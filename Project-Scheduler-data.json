@@ -1,0 +1,1321 @@
+{
+  "projects": [
+    {
+      "id": "6mcppuzq",
+      "key": "ERP",
+      "name": "FALCON",
+      "desc": "펌프형 휴대용 가스 검지기 개발",
+      "status": "진행 중",
+      "priority": "높음",
+      "start": "2026-09-01",
+      "end": "2027-12-31",
+      "color": "#2f6cf0",
+      "milestones": [
+        {
+          "id": "relryt44",
+          "name": "Design mockup",
+          "date": "2026-11-30",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "w4ykni9a",
+      "key": "SUST",
+      "name": "SUSTANING",
+      "desc": "생산 불량 및 고객 의견 대응",
+      "status": "진행 중",
+      "priority": "보통",
+      "start": "2026-01-01",
+      "end": "2027-12-31",
+      "color": "#c2417a",
+      "milestones": []
+    },
+    {
+      "id": "ui1q8u8v",
+      "key": "LIBU",
+      "name": "Libus ODM: BELLMINI, BELLLITE",
+      "desc": "Libus ODM: BELLMINI, BELLLITE",
+      "status": "진행 중",
+      "priority": "높음",
+      "start": "2026-09-01",
+      "end": "2027-01-31",
+      "color": "#22895a",
+      "milestones": []
+    }
+  ],
+  "issues": [
+    {
+      "id": "801tinvc",
+      "projectId": "6mcppuzq",
+      "num": 6,
+      "type": "작업",
+      "title": "[FALCON] 펌프 튜브 선정",
+      "desc": "펌프와 연결할 수 있는 튜브 선정 및 샘플 구매 진행",
+      "status": "진행 중",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-26",
+      "due": "2026-11-06",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 19.5,
+      "created": 1793595507944,
+      "updated": 1793673326052,
+      "comments": [
+        {
+          "id": "4ke2eh2b",
+          "author": "나",
+          "text": "T fitting: https://www.mcmaster.com/5121K821/",
+          "at": 1793673326052
+        },
+        {
+          "id": "cwngw792",
+          "author": "나",
+          "text": "샘플 구매 사이트 선정: https://www.mcmaster.com/9627T13-9627T133/",
+          "at": 1793607801925
+        }
+      ],
+      "history": [
+        {
+          "at": 1793673326052,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793673317992,
+          "text": "댓글을 삭제했습니다"
+        },
+        {
+          "at": 1793670711346,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793608568334,
+          "text": "요약을 “[FALCON] 펌프 튜브 선정”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793608093685,
+          "text": "기한: 2026-11-13 → 2026-11-06"
+        },
+        {
+          "at": 1793608090069,
+          "text": "기한: 없음 → 2026-11-13"
+        },
+        {
+          "at": 1793608086789,
+          "text": "시작일: 없음 → 2026-10-26"
+        },
+        {
+          "at": 1793607821022,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793607801925,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793599031913,
+          "text": "유형: 스토리 → 작업"
+        },
+        {
+          "at": 1793599004585,
+          "text": "유형: 작업 → 스토리"
+        },
+        {
+          "at": 1793596968315,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793595641172,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793595507944,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "t05sa1lw",
+      "projectId": "6mcppuzq",
+      "num": 7,
+      "type": "작업",
+      "title": "[FALCON] 시린지 필터 선정",
+      "desc": "",
+      "status": "진행 중",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-26",
+      "due": "2026-11-06",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 21,
+      "created": 1793595545264,
+      "updated": 1793608572269,
+      "comments": [
+        {
+          "id": "py4mx9bk",
+          "author": "나",
+          "text": "구매 사이트 선정\nhttps://www.lklab.com/product/product_info.asp?g_no=11231&t_no=1125&srsltid=AYCX9vIzWYP8MZrolctW4Xa2J3xY-_uYhBpMIT7Ikixu98x7Pq8HUk9S",
+          "at": 1793608012853
+        }
+      ],
+      "history": [
+        {
+          "at": 1793608572269,
+          "text": "요약을 “[FALCON] 시린지 필터 선정”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793608038190,
+          "text": "기한: 없음 → 2026-11-06"
+        },
+        {
+          "at": 1793608031462,
+          "text": "시작일: 없음 → 2026-10-26"
+        },
+        {
+          "at": 1793608012853,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793607828917,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793596962922,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793595545264,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "em2n2hj1",
+      "projectId": "6mcppuzq",
+      "num": 8,
+      "type": "작업",
+      "title": "[FALCON] 밸트 클립 선정",
+      "desc": "밸트 클립 선정 진행\n- 녹슬지 않을만한 제품\n- 회전 가능한 제품\n- 탈착이 편한 제품",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-09-01",
+      "due": "2026-10-30",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 20,
+      "created": 1793595560808,
+      "updated": 1793608584030,
+      "comments": [
+        {
+          "id": "2wqwg1dw",
+          "author": "나",
+          "text": "모델링 진행 완료",
+          "at": 1793608076021
+        },
+        {
+          "id": "krvwzt0c",
+          "author": "나",
+          "text": "샘플 검토 및 대량 구매 가능 확인\nhttps://gdi-solution.slack.com/archives/D0BQYTSTT0B/p1793169746467239",
+          "at": 1793607923829
+        }
+      ],
+      "history": [
+        {
+          "at": 1793608584030,
+          "text": "요약을 “[FALCON] 밸트 클립 선정”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793608076021,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793608063669,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793608060245,
+          "text": "기한: 없음 → 2026-10-30"
+        },
+        {
+          "at": 1793608055453,
+          "text": "시작일: 없음 → 2026-09-01"
+        },
+        {
+          "at": 1793607923829,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793607877120,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793607825973,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793596961331,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793595560808,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "lt65ivrd",
+      "projectId": "6mcppuzq",
+      "num": 9,
+      "type": "스토리",
+      "title": "[FALCON] 디자인 수정 진행",
+      "desc": "기구 간섭 및 형상 검토 결과를 근거로 외관 디자인 변경",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-26",
+      "due": "2026-11-06",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 21,
+      "created": 1793595573875,
+      "updated": 1795075794906,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795075794906,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793610028357,
+          "text": "유형: 작업 → 스토리"
+        },
+        {
+          "at": 1793608557141,
+          "text": "요약을 “[FALCON] 디자인 수정 진행”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793599039697,
+          "text": "유형: 스토리 → 작업"
+        },
+        {
+          "at": 1793596928659,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793596250818,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793596240866,
+          "text": "기한: 없음 → 2026-11-06"
+        },
+        {
+          "at": 1793596235506,
+          "text": "시작일: 없음 → 2026-10-26"
+        },
+        {
+          "at": 1793596223369,
+          "text": "유형: 작업 → 스토리"
+        },
+        {
+          "at": 1793596219371,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793595573875,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "ob6e4ddu",
+      "projectId": "6mcppuzq",
+      "num": 10,
+      "type": "작업",
+      "title": "[FALCON] 하우징 및 구조 설계",
+      "desc": "",
+      "status": "진행 중",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-01",
+      "due": "2026-11-20",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 18.5,
+      "created": 1793595590135,
+      "updated": 1793608560685,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793608560685,
+          "text": "요약을 “[FALCON] 하우징 및 구조 설계”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793599036489,
+          "text": "유형: 스토리 → 작업"
+        },
+        {
+          "at": 1793598999041,
+          "text": "유형: 작업 → 스토리"
+        },
+        {
+          "at": 1793596930218,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793596183873,
+          "text": "기한: 없음 → 2026-11-20"
+        },
+        {
+          "at": 1793596176874,
+          "text": "시작일: 없음 → 2026-10-01"
+        },
+        {
+          "at": 1793596171394,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793595590135,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "cvaux9jc",
+      "projectId": "6mcppuzq",
+      "num": 11,
+      "type": "에픽",
+      "title": "ME mockup 제작",
+      "desc": "ME mockup 제작",
+      "status": "할 일",
+      "priority": "높음",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-01",
+      "due": "2026-12-31",
+      "epicId": "",
+      "sprintId": "",
+      "order": 20,
+      "created": 1793596158881,
+      "updated": 1793596158881,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793596158881,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "el2rrp9l",
+      "projectId": "6mcppuzq",
+      "num": 12,
+      "type": "작업",
+      "title": "[FALCON] 악세서리 준비",
+      "desc": "",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "",
+      "due": "",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 21,
+      "created": 1793596957134,
+      "updated": 1793608659901,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793608659901,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793608552326,
+          "text": "요약을 “[FALCON] 악세서리 준비”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793596957134,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "ft2akvyk",
+      "projectId": "ui1q8u8v",
+      "num": 13,
+      "type": "작업",
+      "title": "[Libus] BELLMINI Housing 색상 변경",
+      "desc": "BELLMINI Housing 색상 변경 샘플 발주 및 샘플 수령",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-01",
+      "due": "2026-12-01",
+      "epicId": "gtd5v6ra",
+      "sprintId": "ea7lq4d8",
+      "order": 22,
+      "created": 1793597121780,
+      "updated": 1795075422750,
+      "comments": [
+        {
+          "id": "rkhgl1jf",
+          "author": "나",
+          "text": "샘플 및 윈도우필름 인쇄판 제작 발주 - 하넥스",
+          "at": 1793607597045
+        },
+        {
+          "id": "g7l7p10y",
+          "author": "나",
+          "text": "샘플 및 인쇄판 진행 승인 진행 중",
+          "at": 1793597475241
+        }
+      ],
+      "history": [
+        {
+          "at": 1795075422750,
+          "text": "상태: 검토 중 → 완료"
+        },
+        {
+          "at": 1795075421233,
+          "text": "상태: 진행 중 → 검토 중"
+        },
+        {
+          "at": 1793608498997,
+          "text": "요약을 “[Libus] BELLMINI Housing 색상 변경”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793607597045,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793597475241,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793597441619,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597359720,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793597339185,
+          "text": "기한: 없음 → 2026-12-01"
+        },
+        {
+          "at": 1793597324057,
+          "text": "시작일: 없음 → 2026-10-01"
+        },
+        {
+          "at": 1793597311201,
+          "text": "에픽: 없음 → BELLMINI Libus ODM"
+        },
+        {
+          "at": 1793597306609,
+          "text": "스프린트: 백로그 → Sprint #1"
+        },
+        {
+          "at": 1793597121780,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "s4i5nabt",
+      "projectId": "ui1q8u8v",
+      "num": 14,
+      "type": "작업",
+      "title": "[Libus] BELLLITE Housing 색상 변경",
+      "desc": "BELLLITE Housing 색상 변경 및 샘플 제작",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-01",
+      "due": "2026-12-01",
+      "epicId": "3bh69jir",
+      "sprintId": "ea7lq4d8",
+      "order": 23,
+      "created": 1793597130171,
+      "updated": 1795075425965,
+      "comments": [
+        {
+          "id": "nc9w5sf5",
+          "author": "나",
+          "text": "샘플 100set 발주",
+          "at": 1793607619141
+        }
+      ],
+      "history": [
+        {
+          "at": 1795075425965,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793608505918,
+          "text": "요약을 “[Libus] BELLLITE Housing 색상 변경”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793607619141,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793597442859,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597419897,
+          "text": "기한: 2026-11-01 → 2026-12-01"
+        },
+        {
+          "at": 1793597403506,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793597392473,
+          "text": "기한: 없음 → 2026-11-01"
+        },
+        {
+          "at": 1793597389529,
+          "text": "시작일: 없음 → 2026-10-01"
+        },
+        {
+          "at": 1793597382345,
+          "text": "에픽: 없음 → BELLLITE Libus ODM"
+        },
+        {
+          "at": 1793597379545,
+          "text": "스프린트: 백로그 → Sprint #1"
+        },
+        {
+          "at": 1793597130171,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "0v6nz9xw",
+      "projectId": "ui1q8u8v",
+      "num": 15,
+      "type": "작업",
+      "title": "[Libus] BELLMINI Window film 디자인 변경",
+      "desc": "BELLMINI window film 로고 디자인 변경: -> Libus logo",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-01",
+      "due": "2026-12-01",
+      "epicId": "gtd5v6ra",
+      "sprintId": "ea7lq4d8",
+      "order": 24,
+      "created": 1793597144567,
+      "updated": 1795075430374,
+      "comments": [
+        {
+          "id": "jwcp3dbw",
+          "author": "나",
+          "text": "윈도우 필름 인쇄판 제작 발주",
+          "at": 1793607651117
+        }
+      ],
+      "history": [
+        {
+          "at": 1795075430374,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793608515406,
+          "text": "요약을 “[Libus] BELLMINI Window film 디자인 변경”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793607651117,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793597748971,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597576921,
+          "text": "기한: 없음 → 2026-12-01"
+        },
+        {
+          "at": 1793597573145,
+          "text": "시작일: 없음 → 2026-10-01"
+        },
+        {
+          "at": 1793597568313,
+          "text": "에픽: 없음 → BELLMINI Libus ODM"
+        },
+        {
+          "at": 1793597565449,
+          "text": "스프린트: 백로그 → Sprint #1"
+        },
+        {
+          "at": 1793597563131,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793597144567,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "2j2eqj5u",
+      "projectId": "ui1q8u8v",
+      "num": 16,
+      "type": "작업",
+      "title": "[Libus] BELLLITE Logo plate 디자인 변경",
+      "desc": "BELLLITE logo plate 디자인 변경: 회사 로고 변경",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-19",
+      "due": "2026-11-20",
+      "epicId": "3bh69jir",
+      "sprintId": "ea7lq4d8",
+      "order": 25,
+      "created": 1793597154357,
+      "updated": 1795075740254,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795075740254,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793608479319,
+          "text": "요약을 “[Libus] BELLLITE Logo plate 디자인 변경”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793597750219,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597673571,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793597657641,
+          "text": "기한: 없음 → 2026-11-20"
+        },
+        {
+          "at": 1793597653121,
+          "text": "시작일: 없음 → 2026-10-19"
+        },
+        {
+          "at": 1793597648169,
+          "text": "에픽: 없음 → BELLLITE Libus ODM"
+        },
+        {
+          "at": 1793597645737,
+          "text": "스프린트: 백로그 → Sprint #1"
+        },
+        {
+          "at": 1793597154357,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "2fz603yt",
+      "projectId": "ui1q8u8v",
+      "num": 17,
+      "type": "작업",
+      "title": "[Libus] BELLMINI Box 디자인 변경",
+      "desc": "BELLMINI Box 디자인 변경: Libus용으로 변경",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-19",
+      "due": "2026-11-27",
+      "epicId": "gtd5v6ra",
+      "sprintId": "ea7lq4d8",
+      "order": 26,
+      "created": 1793597171043,
+      "updated": 1795075742680,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795075742680,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793608490830,
+          "text": "요약을 “[Libus] BELLMINI Box 디자인 변경”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793597774705,
+          "text": "기한: 2026-12-25 → 2026-11-27"
+        },
+        {
+          "at": 1793597751771,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597703449,
+          "text": "기한: 없음 → 2026-12-25"
+        },
+        {
+          "at": 1793597698953,
+          "text": "시작일: 없음 → 2026-10-19"
+        },
+        {
+          "at": 1793597695809,
+          "text": "에픽: 없음 → BELLMINI Libus ODM"
+        },
+        {
+          "at": 1793597692529,
+          "text": "스프린트: 백로그 → Sprint #1"
+        },
+        {
+          "at": 1793597690514,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793597171043,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "4yyhapbm",
+      "projectId": "ui1q8u8v",
+      "num": 18,
+      "type": "작업",
+      "title": "[Libus] BELLLITE Box 디자인 변경",
+      "desc": "BELLLITE Box 디자인 변경: Libus용으로 변경",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-19",
+      "due": "2026-11-27",
+      "epicId": "3bh69jir",
+      "sprintId": "ea7lq4d8",
+      "order": 27,
+      "created": 1793597180717,
+      "updated": 1795075744657,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795075744657,
+          "text": "상태: 진행 중 → 완료"
+        },
+        {
+          "at": 1793608495174,
+          "text": "요약을 “[Libus] BELLLITE Box 디자인 변경”(으)로 변경했습니다"
+        },
+        {
+          "at": 1793597753659,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597734817,
+          "text": "기한: 없음 → 2026-11-27"
+        },
+        {
+          "at": 1793597727905,
+          "text": "시작일: 없음 → 2026-10-19"
+        },
+        {
+          "at": 1793597722913,
+          "text": "에픽: 없음 → BELLLITE Libus ODM"
+        },
+        {
+          "at": 1793597720225,
+          "text": "스프린트: 백로그 → Sprint #1"
+        },
+        {
+          "at": 1793597716473,
+          "text": "설명을 수정했습니다"
+        },
+        {
+          "at": 1793597180717,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "3bh69jir",
+      "projectId": "ui1q8u8v",
+      "num": 19,
+      "type": "에픽",
+      "title": "BELLLITE Libus ODM",
+      "desc": "BELLLITE Libus ODM 진행",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-09-01",
+      "due": "2027-01-31",
+      "epicId": "",
+      "sprintId": "",
+      "order": 28,
+      "created": 1793597265041,
+      "updated": 1793597265041,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793597265041,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "gtd5v6ra",
+      "projectId": "ui1q8u8v",
+      "num": 20,
+      "type": "에픽",
+      "title": "BELLMINI Libus ODM",
+      "desc": "BELLMINI Libus ODM 진행",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-09-01",
+      "due": "2027-01-31",
+      "epicId": "",
+      "sprintId": "",
+      "order": 29,
+      "created": 1793597299913,
+      "updated": 1793597299913,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793597299913,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "ww2kybpv",
+      "projectId": "w4ykni9a",
+      "num": 21,
+      "type": "버그",
+      "title": "[BELLMINI] 생산이슈: 밸트 클립 조립 시 E-ring pin 빠지는 현상",
+      "desc": "BELLMINI 밸트 클립 조립 시 간섭으로 E-ring pin 빠지는 현상 발생",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-19",
+      "due": "2026-11-06",
+      "epicId": "p4sao5vu",
+      "sprintId": "790st17r",
+      "order": 30,
+      "created": 1793597855624,
+      "updated": 1795075753539,
+      "comments": [
+        {
+          "id": "yz6rfpvg",
+          "author": "나",
+          "text": "ECN 진행\nLINK: https://app.notion.com/p/gdisolution/ECN_BELLMINI_ME_E-ring-pin-design-update-40c6f70f109480deaf23d666e6e43a46?source=copy_link",
+          "at": 1793598051425
+        }
+      ],
+      "history": [
+        {
+          "at": 1795075753539,
+          "text": "상태: 검토 중 → 완료"
+        },
+        {
+          "at": 1793598051425,
+          "text": "댓글을 남겼습니다"
+        },
+        {
+          "at": 1793597991059,
+          "text": "상태: 진행 중 → 검토 중"
+        },
+        {
+          "at": 1793597987514,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1793597932705,
+          "text": "기한: 없음 → 2026-11-06"
+        },
+        {
+          "at": 1793597930393,
+          "text": "시작일: 없음 → 2026-10-19"
+        },
+        {
+          "at": 1793597923081,
+          "text": "에픽: 없음 → BELLMINI Sustaining"
+        },
+        {
+          "at": 1793597920873,
+          "text": "스프린트: 백로그 → 2026 4th"
+        },
+        {
+          "at": 1793597855624,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "p4sao5vu",
+      "projectId": "w4ykni9a",
+      "num": 22,
+      "type": "에픽",
+      "title": "BELLMINI Sustaining",
+      "desc": "",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-10-01",
+      "due": "2026-12-31",
+      "epicId": "",
+      "sprintId": "",
+      "order": 31,
+      "created": 1793597885819,
+      "updated": 1793608846942,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793608846942,
+          "text": "기한: 없음 → 2026-12-31"
+        },
+        {
+          "at": 1793608843509,
+          "text": "시작일: 없음 → 2026-10-01"
+        },
+        {
+          "at": 1793597885819,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "ixkmna5c",
+      "projectId": "ui1q8u8v",
+      "num": 23,
+      "type": "작업",
+      "title": "ECN",
+      "desc": "",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "",
+      "due": "",
+      "epicId": "",
+      "sprintId": "",
+      "order": 32,
+      "created": 1793600005368,
+      "updated": 1793600005368,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793600005368,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "hjktq8w8",
+      "projectId": "ui1q8u8v",
+      "num": 24,
+      "type": "작업",
+      "title": "도면 준비",
+      "desc": "",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "",
+      "due": "",
+      "epicId": "",
+      "sprintId": "",
+      "order": 33,
+      "created": 1793600011143,
+      "updated": 1793600011143,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793600011143,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "bg16xc2b",
+      "projectId": "ui1q8u8v",
+      "num": 25,
+      "type": "작업",
+      "title": "DV Test",
+      "desc": "",
+      "status": "할 일",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "",
+      "due": "",
+      "epicId": "",
+      "sprintId": "",
+      "order": 34,
+      "created": 1793600028710,
+      "updated": 1793600028710,
+      "comments": [],
+      "history": [
+        {
+          "at": 1793600028710,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "cow868g5",
+      "projectId": "ui1q8u8v",
+      "num": 26,
+      "type": "작업",
+      "title": "도면 제작",
+      "desc": "",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "",
+      "due": "",
+      "epicId": "",
+      "sprintId": "ea7lq4d8",
+      "order": 28,
+      "created": 1793607677351,
+      "updated": 1795571235280,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795571235280,
+          "text": "상태: 검토 중 → 완료"
+        },
+        {
+          "at": 1795571230822,
+          "text": "상태: 할 일 → 검토 중"
+        },
+        {
+          "at": 1793607677351,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "50ihqeo8",
+      "projectId": "ui1q8u8v",
+      "num": 27,
+      "type": "작업",
+      "title": "BELLLITE ECN",
+      "desc": "",
+      "status": "진행 중",
+      "priority": "높음",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-11-24",
+      "due": "2026-11-30",
+      "epicId": "3bh69jir",
+      "sprintId": "ea7lq4d8",
+      "order": 29,
+      "created": 1793607682281,
+      "updated": 1795571413205,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795571413205,
+          "text": "요약을 “BELLLITE ECN”(으)로 변경했습니다"
+        },
+        {
+          "at": 1795571276542,
+          "text": "상태: 완료 → 진행 중"
+        },
+        {
+          "at": 1795571268139,
+          "text": "우선순위: 보통 → 높음"
+        },
+        {
+          "at": 1795571260998,
+          "text": "에픽: 없음 → BELLLITE Libus ODM"
+        },
+        {
+          "at": 1795571252538,
+          "text": "기한: 없음 → 2026-11-30"
+        },
+        {
+          "at": 1795571250226,
+          "text": "시작일: 없음 → 2026-11-24"
+        },
+        {
+          "at": 1795571237934,
+          "text": "상태: 검토 중 → 완료"
+        },
+        {
+          "at": 1795571232370,
+          "text": "상태: 할 일 → 검토 중"
+        },
+        {
+          "at": 1793607682281,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "2u2w1n87",
+      "projectId": "6mcppuzq",
+      "num": 28,
+      "type": "작업",
+      "title": "[FALCON] Design mockup 진행- 3D printing",
+      "desc": "",
+      "status": "완료",
+      "priority": "보통",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-11-23",
+      "due": "2026-11-30",
+      "epicId": "cvaux9jc",
+      "sprintId": "0bco7dvg",
+      "order": 22,
+      "created": 1793609974934,
+      "updated": 1795075806622,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795075806622,
+          "text": "상태: 할 일 → 완료"
+        },
+        {
+          "at": 1793610005645,
+          "text": "기한: 없음 → 2026-11-30"
+        },
+        {
+          "at": 1793610002013,
+          "text": "시작일: 없음 → 2026-11-23"
+        },
+        {
+          "at": 1793609988389,
+          "text": "에픽: 없음 → ME mockup 제작"
+        },
+        {
+          "at": 1793609974934,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    },
+    {
+      "id": "65brtrun",
+      "projectId": "ui1q8u8v",
+      "num": 29,
+      "type": "작업",
+      "title": "BELLMINI ECN",
+      "desc": "",
+      "status": "진행 중",
+      "priority": "높음",
+      "assignee": "나",
+      "labels": [],
+      "points": null,
+      "start": "2026-11-25",
+      "due": "2026-11-30",
+      "epicId": "gtd5v6ra",
+      "sprintId": "ea7lq4d8",
+      "order": 30,
+      "created": 1795571406598,
+      "updated": 1795571446394,
+      "comments": [],
+      "history": [
+        {
+          "at": 1795571446394,
+          "text": "기한: 없음 → 2026-11-30"
+        },
+        {
+          "at": 1795571444380,
+          "text": "시작일: 없음 → 2026-11-25"
+        },
+        {
+          "at": 1795571440524,
+          "text": "에픽: 없음 → BELLMINI Libus ODM"
+        },
+        {
+          "at": 1795571434411,
+          "text": "우선순위: 보통 → 높음"
+        },
+        {
+          "at": 1795571417153,
+          "text": "상태: 할 일 → 진행 중"
+        },
+        {
+          "at": 1795571406598,
+          "text": "이슈를 만들었습니다"
+        }
+      ]
+    }
+  ],
+  "sprints": [
+    {
+      "id": "0bco7dvg",
+      "projectId": "6mcppuzq",
+      "name": "Sprint #1: 1st ME mockup 제작",
+      "goal": "설계 구조 적용한 기구 Mockup 제작",
+      "start": "2026-09-01",
+      "end": "2026-12-31",
+      "state": "진행 중"
+    },
+    {
+      "id": "790st17r",
+      "projectId": "w4ykni9a",
+      "name": "2026 4th",
+      "goal": "4분기 Sustaining 대응",
+      "start": "2026-10-01",
+      "end": "2026-12-31",
+      "state": "진행 중"
+    },
+    {
+      "id": "ea7lq4d8",
+      "projectId": "ui1q8u8v",
+      "name": "[Libus] Sprint #1",
+      "goal": "Libus ODM(BELLMINI, BELLLITE) 제품에 대해서 생산 준비까지 완료하여 ECN 진행",
+      "start": "2026-09-01",
+      "end": "2027-01-31",
+      "state": "진행 중"
+    }
+  ],
+  "keyFormat": "ME",
+  "issueSeq": 29,
+  "cleanedAbbr": true,
+  "savedAt": 1795571446394
+}
