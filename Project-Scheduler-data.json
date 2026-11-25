@@ -1142,7 +1142,7 @@
       "type": "작업",
       "title": "BELLLITE ECN",
       "desc": "",
-      "status": "진행 중",
+      "status": "완료",
       "priority": "높음",
       "assignee": "나",
       "labels": [],
@@ -1153,9 +1153,13 @@
       "sprintId": "ea7lq4d8",
       "order": 29,
       "created": 1793607682281,
-      "updated": 1795571413205,
+      "updated": 1795593070352,
       "comments": [],
       "history": [
+        {
+          "at": 1795593070352,
+          "text": "상태: 진행 중 → 완료"
+        },
         {
           "at": 1795571413205,
           "text": "요약을 “BELLLITE ECN”(으)로 변경했습니다"
@@ -1244,7 +1248,7 @@
       "type": "작업",
       "title": "BELLMINI ECN",
       "desc": "",
-      "status": "진행 중",
+      "status": "완료",
       "priority": "높음",
       "assignee": "나",
       "labels": [],
@@ -1255,9 +1259,13 @@
       "sprintId": "ea7lq4d8",
       "order": 30,
       "created": 1795571406598,
-      "updated": 1795571446394,
+      "updated": 1795593072337,
       "comments": [],
       "history": [
+        {
+          "at": 1795593072337,
+          "text": "상태: 진행 중 → 완료"
+        },
         {
           "at": 1795571446394,
           "text": "기한: 없음 → 2026-11-30"
@@ -1311,11 +1319,12 @@
       "goal": "Libus ODM(BELLMINI, BELLLITE) 제품에 대해서 생산 준비까지 완료하여 ECN 진행",
       "start": "2026-09-01",
       "end": "2027-01-31",
-      "state": "진행 중"
+      "state": "완료",
+      "completedAt": 1795593078413
     }
   ],
   "keyFormat": "ME",
   "issueSeq": 29,
   "cleanedAbbr": true,
-  "savedAt": 1795571446394
+  "savedAt": 1795593078413
 }
